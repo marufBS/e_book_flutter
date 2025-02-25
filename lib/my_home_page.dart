@@ -13,7 +13,7 @@ class MyHomePage extends StatefulWidget {
 
 class MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-
+  // Lists to hold book data
   List<Map<String, dynamic>> popularBooksDisplay = [];
   List<Map<String, dynamic>> newBooks = [];
   List<Map<String, dynamic>> popularBooks = [];
@@ -24,9 +24,9 @@ class MyHomePageState extends State<MyHomePage>
 
   final Logger logger = Logger();
 
-  Future<void> readData() async{
-
-    try{
+  // Function to read data from JSON files
+  Future<void> readData() async {
+    try {
       final jsonFiles = [
         'json/popularBooksDisplay.json',
         'json/newBooks.json',
@@ -35,27 +35,30 @@ class MyHomePageState extends State<MyHomePage>
       ];
 
       final data = await Future.wait(
-          jsonFiles.map((file)=>DefaultAssetBundle.of(context).loadString(file))
+        jsonFiles.map(
+          (file) => DefaultAssetBundle.of(context).loadString(file),
+        ),
       );
 
       setState(() {
-        popularBooksDisplay = List<Map<String,dynamic>>.from(json.decode(data[0]));
-        newBooks = List<Map<String,dynamic>>.from(json.decode(data[1]));
-        popularBooks = List<Map<String,dynamic>>.from(json.decode(data[2]));
-        trendyBooks = List<Map<String,dynamic>>.from(json.decode(data[3]));
+        popularBooksDisplay = List<Map<String, dynamic>>.from(
+          json.decode(data[0]),
+        );
+        newBooks = List<Map<String, dynamic>>.from(json.decode(data[1]));
+        popularBooks = List<Map<String, dynamic>>.from(json.decode(data[2]));
+        trendyBooks = List<Map<String, dynamic>>.from(json.decode(data[3]));
       });
-    }catch(e){
-      logger.e('Error loading data:',e);
+    } catch (e) {
+      logger.e('Error loading data:', e);
     }
   }
-
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _scrollController = ScrollController();
-    readData();
+    readData(); // Load data when the widget is initialized
   }
 
   @override
@@ -67,7 +70,7 @@ class MyHomePageState extends State<MyHomePage>
           body: Column(
             children: [
               SizedBox(height: 20),
-              // Top section
+              // Top section with menu, search, and notifications icons
               Container(
                 margin: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
@@ -89,7 +92,7 @@ class MyHomePageState extends State<MyHomePage>
                 ),
               ),
               SizedBox(height: 20),
-              //Popular Books title
+              // Popular Books title
               Row(
                 children: [
                   Container(
@@ -102,7 +105,7 @@ class MyHomePageState extends State<MyHomePage>
                 ],
               ),
               SizedBox(height: 20),
-              //Carousel
+              // Carousel for popular books display
               SizedBox(
                 height: 180,
                 child: Stack(
@@ -113,7 +116,6 @@ class MyHomePageState extends State<MyHomePage>
                       right: 0,
                       child: SizedBox(
                         height: 180,
-                        //Carousel builder
                         child: PageView.builder(
                           controller: PageController(viewportFraction: 0.8),
                           itemCount: popularBooksDisplay.length,
@@ -125,7 +127,9 @@ class MyHomePageState extends State<MyHomePage>
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.0),
                                 image: DecorationImage(
-                                  image: AssetImage(popularBooksDisplay[i]["img"]),
+                                  image: AssetImage(
+                                    popularBooksDisplay[i]["img"],
+                                  ),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -137,12 +141,12 @@ class MyHomePageState extends State<MyHomePage>
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 20),
+              // Tab bar and tab views for new, popular, and trendy books
               Expanded(
                 child: NestedScrollView(
                   controller: _scrollController,
                   headerSliverBuilder: (BuildContext context, bool isScroll) {
-                    // SliverAppBar
                     return [
                       SliverAppBar(
                         pinned: true,
@@ -151,23 +155,12 @@ class MyHomePageState extends State<MyHomePage>
                           preferredSize: Size.fromHeight(20),
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10, left: 10),
-                            // color: Colors.black,
                             child: TabBar(
                               indicatorPadding: const EdgeInsets.all(0),
                               indicatorSize: TabBarIndicatorSize.label,
                               labelPadding: const EdgeInsets.only(right: 10),
                               controller: _tabController,
                               isScrollable: false,
-                              // indicator: BoxDecoration(
-                              //   borderRadius: BorderRadius.circular(10),
-                              //   boxShadow: [
-                              //     BoxShadow(
-                              //       color: Colors.grey.withOpacity(0.2),
-                              //       blurRadius: 7,
-                              //       offset: Offset(0, 0),
-                              //     ),
-                              //   ],
-                              // ),
                               tabs: [
                                 AppTabs(
                                   color: app_colors.menu1Color,
@@ -191,6 +184,7 @@ class MyHomePageState extends State<MyHomePage>
                   body: TabBarView(
                     controller: _tabController,
                     children: [
+                      // List view for new books
                       ListView.builder(
                         itemCount: newBooks.length,
                         itemBuilder: (_, i) {
@@ -209,7 +203,9 @@ class MyHomePageState extends State<MyHomePage>
                                   BoxShadow(
                                     blurRadius: 2,
                                     offset: Offset(0, 0),
-                                    color: Colors.grey.withAlpha((0.2*255).toInt())
+                                    color: Colors.grey.withAlpha(
+                                      (0.2 * 255).toInt(),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -265,7 +261,6 @@ class MyHomePageState extends State<MyHomePage>
                                             color: app_colors.subTitleText,
                                           ),
                                         ),
-
                                         Container(
                                           width: 60,
                                           height: 20,
@@ -294,6 +289,7 @@ class MyHomePageState extends State<MyHomePage>
                           );
                         },
                       ),
+                      // List view for popular books
                       ListView.builder(
                         itemCount: popularBooks.length,
                         itemBuilder: (_, i) {
@@ -312,7 +308,9 @@ class MyHomePageState extends State<MyHomePage>
                                   BoxShadow(
                                     blurRadius: 2,
                                     offset: Offset(0, 0),
-                                    color: Colors.grey.withAlpha((0.2*255).toInt()),
+                                    color: Colors.grey.withAlpha(
+                                      (0.2 * 255).toInt(),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -326,7 +324,9 @@ class MyHomePageState extends State<MyHomePage>
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: AssetImage(popularBooks[i]["img"]),
+                                          image: AssetImage(
+                                            popularBooks[i]["img"],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -368,7 +368,6 @@ class MyHomePageState extends State<MyHomePage>
                                             color: app_colors.subTitleText,
                                           ),
                                         ),
-
                                         Container(
                                           width: 60,
                                           height: 20,
@@ -397,6 +396,7 @@ class MyHomePageState extends State<MyHomePage>
                           );
                         },
                       ),
+                      // List view for trendy books
                       ListView.builder(
                         itemCount: trendyBooks.length,
                         itemBuilder: (_, i) {
@@ -415,7 +415,9 @@ class MyHomePageState extends State<MyHomePage>
                                   BoxShadow(
                                     blurRadius: 2,
                                     offset: Offset(0, 0),
-                                    color: Colors.grey.withAlpha((0.2*255).toInt()),
+                                    color: Colors.grey.withAlpha(
+                                      (0.2 * 255).toInt(),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -429,7 +431,9 @@ class MyHomePageState extends State<MyHomePage>
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: AssetImage(trendyBooks[i]["img"]),
+                                          image: AssetImage(
+                                            trendyBooks[i]["img"],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -471,7 +475,6 @@ class MyHomePageState extends State<MyHomePage>
                                             color: app_colors.subTitleText,
                                           ),
                                         ),
-
                                         Container(
                                           width: 60,
                                           height: 20,
