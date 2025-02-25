@@ -13,70 +13,70 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-   List? popularBooksDisplay;
-   List? newBooks;
-   List? popularBooks;
-   List? trendyBooks;
-  // List<Map<String, dynamic>> popularBooksDisplay = [];
-  // List<Map<String, dynamic>> newBooks = [];
-  // List<Map<String, dynamic>> popularBooks = [];
-  // List<Map<String, dynamic>> trendyBooks = [];
+   // List? popularBooksDisplay;
+   // List? newBooks;
+   // List? popularBooks;
+   // List? trendyBooks;
+  List<Map<String, dynamic>> popularBooksDisplay = [];
+  List<Map<String, dynamic>> newBooks = [];
+  List<Map<String, dynamic>> popularBooks = [];
+  List<Map<String, dynamic>> trendyBooks = [];
   late ScrollController _scrollController;
   late TabController _tabController;
 
-  // Future<void> readData() async{
-  //   final jsonFiles = [
-  //     'json/popularBooksDisplay.json',
-  //     'json/newBooks.json',
-  //     'json/popularBooks.json',
-  //     'json/trendyBooks.json',
-  //   ];
-  //
-  //   final data = await Future.wait(
-  //       jsonFiles.map((file)=>DefaultAssetBundle.of(context).loadString(file))
-  //   );
-  //
-  //   setState(() {
-  //     popularBooksDisplay = json.decode(data[0]);
-  //     newBooks = json.decode(data[1]);
-  //     popularBooks = json.decode(data[2]);
-  //     trendyBooks = json.decode(data[3]);
-  //   });
-  // }
+  Future<void> readData() async{
+    final jsonFiles = [
+      'json/popularBooksDisplay.json',
+      'json/newBooks.json',
+      'json/popularBooks.json',
+      'json/trendyBooks.json',
+    ];
 
-  readData() async {
-    await DefaultAssetBundle.of(
-      context,
-    ).loadString("json/popularBooksDisplay.json").then((s) {
-      setState(() {
-        popularBooksDisplay = json.decode(s);
-      });
-    });
+    final data = await Future.wait(
+        jsonFiles.map((file)=>DefaultAssetBundle.of(context).loadString(file))
+    );
 
-    await DefaultAssetBundle.of(context).loadString("json/newBooks.json").then((
-      s,
-    ) {
-      setState(() {
-        newBooks = json.decode(s);
-      });
-    });
-
-    await DefaultAssetBundle.of(context).loadString("json/popularBooks.json").then((
-      s,
-    ) {
-      setState(() {
-        popularBooks = json.decode(s);
-      });
-    });
-
-    await DefaultAssetBundle.of(context).loadString("json/trendyBooks.json").then((
-      s,
-    ) {
-      setState(() {
-        trendyBooks = json.decode(s);
-      });
+    setState(() {
+      popularBooksDisplay = json.decode(data[0]);
+      newBooks = json.decode(data[1]);
+      popularBooks = json.decode(data[2]);
+      trendyBooks = json.decode(data[3]);
     });
   }
+
+  // readData() async {
+  //   await DefaultAssetBundle.of(
+  //     context,
+  //   ).loadString("json/popularBooksDisplay.json").then((s) {
+  //     setState(() {
+  //       popularBooksDisplay = json.decode(s);
+  //     });
+  //   });
+  //
+  //   await DefaultAssetBundle.of(context).loadString("json/newBooks.json").then((
+  //     s,
+  //   ) {
+  //     setState(() {
+  //       newBooks = json.decode(s);
+  //     });
+  //   });
+  //
+  //   await DefaultAssetBundle.of(context).loadString("json/popularBooks.json").then((
+  //     s,
+  //   ) {
+  //     setState(() {
+  //       popularBooks = json.decode(s);
+  //     });
+  //   });
+  //
+  //   await DefaultAssetBundle.of(context).loadString("json/trendyBooks.json").then((
+  //     s,
+  //   ) {
+  //     setState(() {
+  //       trendyBooks = json.decode(s);
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
@@ -144,8 +144,8 @@ class _MyHomePageState extends State<MyHomePage>
                         //Carousel builder
                         child: PageView.builder(
                           controller: PageController(viewportFraction: 0.8),
-                          itemCount:
-                              popularBooksDisplay == null ? 0 : popularBooksDisplay?.length,
+                          // itemCount:popularBooksDisplay == null ? 0 : popularBooksDisplay?.length,
+                          itemCount: popularBooksDisplay.length,
                           itemBuilder: (_, i) {
                             return Container(
                               height: 180,
@@ -154,7 +154,8 @@ class _MyHomePageState extends State<MyHomePage>
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.0),
                                 image: DecorationImage(
-                                  image: AssetImage(popularBooksDisplay?[i]["img"]),
+                                  // image: AssetImage(popularBooksDisplay?[i]["img"]),
+                                  image: AssetImage(popularBooksDisplay[i]["img"]),
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -221,7 +222,8 @@ class _MyHomePageState extends State<MyHomePage>
                     controller: _tabController,
                     children: [
                       ListView.builder(
-                        itemCount: newBooks == null ? 0 : newBooks?.length,
+                        // itemCount: newBooks == null ? 0 : newBooks?.length,
+                        itemCount: newBooks.length,
                         itemBuilder: (_, i) {
                           return Container(
                             margin: const EdgeInsets.only(
@@ -252,7 +254,8 @@ class _MyHomePageState extends State<MyHomePage>
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: AssetImage(newBooks?[i]["img"]),
+                                          // image: AssetImage(newBooks?[i]["img"]),
+                                          image: AssetImage(newBooks[i]["img"]),
                                         ),
                                       ),
                                     ),
@@ -271,7 +274,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             ),
                                             SizedBox(width: 5),
                                             Text(
-                                              newBooks?[i]["rating"],
+                                              newBooks[i]["rating"],
+                                              // newBooks?[i]["rating"],
                                               style: TextStyle(
                                                 color: app_colors.menu2Color,
                                               ),
@@ -279,7 +283,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           ],
                                         ),
                                         Text(
-                                          newBooks?[i]["title"],
+                                          newBooks[i]["title"],
+                                          // newBooks?[i]["title"],
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "Avenir",
@@ -287,7 +292,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           ),
                                         ),
                                         Text(
-                                          newBooks?[i]["text"],
+                                          newBooks[i]["text"],
+                                          // newBooks?[i]["text"],
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "Avenir",
@@ -324,7 +330,8 @@ class _MyHomePageState extends State<MyHomePage>
                         },
                       ),
                       ListView.builder(
-                        itemCount: popularBooks == null ? 0 : popularBooks?.length,
+                        // itemCount: popularBooks == null ? 0 : popularBooks?.length,
+                        itemCount: popularBooks.length,
                         itemBuilder: (_, i) {
                           return Container(
                             margin: const EdgeInsets.only(
@@ -355,7 +362,8 @@ class _MyHomePageState extends State<MyHomePage>
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: AssetImage(popularBooks?[i]["img"]),
+                                          image: AssetImage(popularBooks[i]["img"]),
+                                          // image: AssetImage(popularBooks?[i]["img"]),
                                         ),
                                       ),
                                     ),
@@ -374,7 +382,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             ),
                                             SizedBox(width: 5),
                                             Text(
-                                              popularBooks?[i]["rating"],
+                                              popularBooks[i]["rating"],
+                                              // popularBooks?[i]["rating"],
                                               style: TextStyle(
                                                 color: app_colors.menu2Color,
                                               ),
@@ -382,7 +391,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           ],
                                         ),
                                         Text(
-                                          popularBooks?[i]["title"],
+                                          popularBooks[i]["title"],
+                                          // popularBooks?[i]["title"],
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "Avenir",
@@ -390,7 +400,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           ),
                                         ),
                                         Text(
-                                          popularBooks?[i]["text"],
+                                          popularBooks[i]["text"],
+                                          // popularBooks?[i]["text"],
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "Avenir",
@@ -427,7 +438,8 @@ class _MyHomePageState extends State<MyHomePage>
                         },
                       ),
                       ListView.builder(
-                        itemCount: trendyBooks == null ? 0 : trendyBooks?.length,
+                        // itemCount: trendyBooks == null ? 0 : trendyBooks?.length,
+                        itemCount: trendyBooks.length,
                         itemBuilder: (_, i) {
                           return Container(
                             margin: const EdgeInsets.only(
@@ -458,7 +470,8 @@ class _MyHomePageState extends State<MyHomePage>
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
-                                          image: AssetImage(trendyBooks?[i]["img"]),
+                                          image: AssetImage(trendyBooks[i]["img"]),
+                                          // image: AssetImage(trendyBooks?[i]["img"]),
                                         ),
                                       ),
                                     ),
@@ -477,7 +490,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             ),
                                             SizedBox(width: 5),
                                             Text(
-                                              trendyBooks?[i]["rating"],
+                                              trendyBooks[i]["rating"],
+                                              // trendyBooks?[i]["rating"],
                                               style: TextStyle(
                                                 color: app_colors.menu2Color,
                                               ),
@@ -485,7 +499,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           ],
                                         ),
                                         Text(
-                                          trendyBooks?[i]["title"],
+                                          trendyBooks[i]["title"],
+                                          // trendyBooks?[i]["title"],
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "Avenir",
@@ -493,7 +508,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           ),
                                         ),
                                         Text(
-                                          trendyBooks?[i]["text"],
+                                          trendyBooks[i]["text"],
+                                          // trendyBooks?[i]["text"],
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: "Avenir",
