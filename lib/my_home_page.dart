@@ -13,12 +13,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  List? popularBooksDisplay;
-  List? newBooks;
-  List? popularBooks;
-  List? trendyBooks;
+   List? popularBooksDisplay;
+   List? newBooks;
+   List? popularBooks;
+   List? trendyBooks;
+  // List<Map<String, dynamic>> popularBooksDisplay = [];
+  // List<Map<String, dynamic>> newBooks = [];
+  // List<Map<String, dynamic>> popularBooks = [];
+  // List<Map<String, dynamic>> trendyBooks = [];
   late ScrollController _scrollController;
   late TabController _tabController;
+
+  // Future<void> readData() async{
+  //   final jsonFiles = [
+  //     'json/popularBooksDisplay.json',
+  //     'json/newBooks.json',
+  //     'json/popularBooks.json',
+  //     'json/trendyBooks.json',
+  //   ];
+  //
+  //   final data = await Future.wait(
+  //       jsonFiles.map((file)=>DefaultAssetBundle.of(context).loadString(file))
+  //   );
+  //
+  //   setState(() {
+  //     popularBooksDisplay = json.decode(data[0]);
+  //     newBooks = json.decode(data[1]);
+  //     popularBooks = json.decode(data[2]);
+  //     trendyBooks = json.decode(data[3]);
+  //   });
+  // }
 
   readData() async {
     await DefaultAssetBundle.of(
@@ -107,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage>
               ),
               SizedBox(height: 20),
               //Carousel
-              Container(
+              SizedBox(
                 height: 180,
                 child: Stack(
                   children: [
@@ -115,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage>
                       top: 0,
                       left: -20,
                       right: 0,
-                      child: Container(
+                      child: SizedBox(
                         height: 180,
                         //Carousel builder
                         child: PageView.builder(
@@ -214,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   BoxShadow(
                                     blurRadius: 2,
                                     offset: Offset(0, 0),
-                                    color: Colors.grey.withOpacity(0.2),
+                                    color: Colors.grey.withAlpha((0.2*255).toInt())
                                   ),
                                 ],
                               ),
@@ -317,7 +341,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   BoxShadow(
                                     blurRadius: 2,
                                     offset: Offset(0, 0),
-                                    color: Colors.grey.withOpacity(0.2),
+                                    color: Colors.grey.withAlpha((0.2*255).toInt()),
                                   ),
                                 ],
                               ),
@@ -420,7 +444,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   BoxShadow(
                                     blurRadius: 2,
                                     offset: Offset(0, 0),
-                                    color: Colors.grey.withOpacity(0.2),
+                                    color: Colors.grey.withAlpha((0.2*255).toInt()),
                                   ),
                                 ],
                               ),
