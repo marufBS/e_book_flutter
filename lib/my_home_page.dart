@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage>
               ),
               SizedBox(height: 20),
               //Carousel
-              Container(
+              SizedBox(
                 height: 180,
                 child: Stack(
                   children: [
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage>
                       top: 0,
                       left: -20,
                       right: 0,
-                      child: Container(
+                      child: SizedBox(
                         height: 180,
                         //Carousel builder
                         child: PageView.builder(
