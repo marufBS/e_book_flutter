@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:e_book/app_colors.dart' as app_colors;
 
 class  AppTabs extends StatelessWidget {
   final Color? color;
@@ -17,7 +16,7 @@ class  AppTabs extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withAlpha((0.3*255).toInt()),
             blurRadius: 7,
             offset: Offset(0, 0),
           ),
